@@ -1,3 +1,4 @@
 dist/*
 parseargs.egg-info/*
 *.pyc
+build/*
