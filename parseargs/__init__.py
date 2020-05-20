@@ -8,30 +8,28 @@ def parseargs(f):
 	kwdefaults = list() if argspec[3] is None else argspec[3]
 	poslen = len(argnames)-len(kwdefaults)
 	kwnames = argnames[poslen:]
+	posnames = argnames[:poslen]
 	annotations = argspec[6]
 
 	parser = argparse.ArgumentParser(description=('signature = ' + str(inspect.signature(f))))
 
-	#add arglist for positional args
-	parser.add_argument('arglist', nargs=poslen)
-	#add optional args
-	for option, default in zip(kwnames, kwdefaults):
-		parser.add_argument(f'--{option}', required=False, default=default)
+	# add args, using defaults if provided
+	for i in range(len(argnames)):
+		name = argnames[i]
+		tp = annotations.get(name, str)
+		print(name)
+		if i - poslen >= 0:
+			default = kwdefaults[i-poslen]
+			parser.add_argument(f'-{name[0]}', f'--{name}', required=False, type=tp, default=default)
+		else:
+			parser.add_argument(name, type=tp)
 
 	# compile parser
 	args = parser.parse_args()
-	# get a copy of args, delete arglist, use as kwargs
-
-
 	kwargs = vars(args).copy()
-	del kwargs['arglist']
+	posargs = [kwargs[name] for name in posnames]
+	for name in posnames:
+		del kwargs[name]
 
-	# parse the arguments as the correct type
-	for argname, func in annotations.items():
-		idx = argnames.index(argname)
-		if idx < len(args.arglist):
-			args.arglist[idx] = func(args.arglist[idx])
-		else:
-			kwargs[argname] = func(kwargs[argname])
 
-	f(*(args.arglist), **kwargs)
+	f(*posargs, **kwargs)
