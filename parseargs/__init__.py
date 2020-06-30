@@ -17,7 +17,6 @@ def parseargs(f):
 	for i in range(len(argnames)):
 		name = argnames[i]
 		tp = annotations.get(name, str)
-		print(name)
 		if i - poslen >= 0:
 			default = kwdefaults[i-poslen]
 			parser.add_argument(f'-{name[0]}', f'--{name}', required=False, type=tp, default=default)

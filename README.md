@@ -2,8 +2,9 @@
 
 ##### A simple, intuitive way to parse command line arguments. Simply make a function, and call parseargs on it.
 * parses data types through annoations (annotations not required for string arguments)
+* parses positional arguments into positional cli arguments with the same name
 * parses optional keyword arguments by adding them as optional cli arguments
-* parses positional arguments in a variable called arglist (so don't use that as a keyword!)
+* parses annotated arguments and uses the native cli specification for types
 * adds a description of the command by using the signature of the method.
 
 ## Example
@@ -37,14 +38,15 @@ Notice how it will print out 10. If you remove the annotation declaring the numb
 We can get the method signature with:
 ```
 $ python fun.py -h
-usage: test2.py [-h] [--number NUMBER] arglist arglist
+usage: fun.py [-h] [-n NUMBER] firstname lastname
 
 signature = (firstname, lastname: str, number: int = 5)
 
 positional arguments:
-  arglist
+  firstname
+  lastname
 
 optional arguments:
-  -h, --help       show this help message and exit
-  --number NUMBER
+  -h, --help            show this help message and exit
+  -n NUMBER, --number NUMBER
 ```
