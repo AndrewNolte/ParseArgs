@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="parseargs", # Replace with your own username
-    version="0.0.4",
+    version="0.0.5",
     author="Andrew Nolte",
     author_email="anolte512@gmail.com",
     description="A simple package for parsing function arguments from the command line",
